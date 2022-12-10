@@ -1,0 +1,22 @@
+version: "3.8"
+
+services: 
+  
+  web: 
+    build: ./.docker-config/.nginx
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./.docker-config/.nginx/nginx.conf:/etc/nginx/nginx.conf
+    restart: always 
+
+  nextjs: 
+      build: ./.docker-config/.nextjs
+      volumes:
+        - ./portfolio:/usr/src/app
+      command: bash -c "npm run start"
+      expose:
+        - "3000"
+      tty: true
+      restart: always 
