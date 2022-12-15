@@ -15,7 +15,7 @@ services:
     build: ./.docker-config/.nextjs
     volumes:
       - ./portfolio:/usr/src/app
-    command: bash -c "npm run start"
+    command: bash -c "npm run dev"
     ports:
       - "3010:3000"
     tty: true
