@@ -3,3 +3,6 @@
 
 #cert
 /.docker-config/.nginx/cert
+
+# docker-env
+.env

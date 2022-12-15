@@ -2,21 +2,35 @@ version: "3.8"
 
 services: 
   
-  web: 
-    build: ./.docker-config/.nginx
-    ports: 
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./.docker-config/.nginx/nginx.conf:/etc/nginx/nginx.conf
-    restart: always 
+  # web: 
+  #   build: ./.docker-config/.nginx
+  #   ports: 
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./.docker-config/.nginx/nginx.conf:/etc/nginx/nginx.conf
+  #   restart: always 
 
   nextjs: 
-      build: ./.docker-config/.nextjs
-      volumes:
-        - ./portfolio:/usr/src/app
-      command: bash -c "npm run start"
-      expose:
-        - "3000"
-      tty: true
-      restart: always 
+    build: ./.docker-config/.nextjs
+    volumes:
+      - ./portfolio:/usr/src/app
+    command: bash -c "npm run start"
+    ports:
+      - "3010:3000"
+    tty: true
+    restart: always 
+      
+
+  cloudflare:
+    build: ./.docker-config/.cloudflared
+    volumes: 
+      - ./tunnel:/home/nonroot/.cloudflared
+    command: 
+      - "tunnel" 
+      - "--no-autoupdate"
+      - "run"
+      - "--token"
+      - "${CFTOKEN}"
+    network_mode: "host"
+
